@@ -1,75 +1,79 @@
 # Paradox Phantom
 
-Advanced man-in-the-middle phishing framework capable of capturing credentials and session cookies (including MFA bypass via reverse proxy).
+Advanced reverse-proxy phishing framework (Evilginx2) for capturing credentials + session tokens.
 
-Paradox usage notes focused on terminal deployment across Linux, Termux, and Windows.
+Paradox operator kit with terminal & Termux support.
 
-**Primary upstream:** [kgretzky/evilginx2](https://github.com/kgretzky/evilginx2)
-
----
-
-## Core Capability
-
-- Acts as a reverse proxy between victim and real login pages
-- Captures credentials + session tokens / cookies
-- Supports phishing pages for major services via phishlets
-- Can be used with custom domains and certificates
+**Upstream:** [kgretzky/evilginx2](https://github.com/kgretzky/evilginx2)
 
 ---
 
-## Platform Support
+## Files
 
-| Platform   | Notes |
-|------------|-------|
-| Linux      | Best experience. Full features. |
-| Termux     | Works well for the binary / Go build. Great for mobile red team kits. |
-| Windows    | Possible via WSL or native Go. |
-| Docker     | Clean and recommended for isolation. |
+| File | Purpose |
+|------|---------|
+| `install-linux.sh` | Linux install (go install + source build) |
+| `install-termux.sh` | Termux install |
+| `start-phantom.sh` | Launcher |
+| `README.md` | This file |
 
 ---
 
-## Quick Install — Linux
+## Quick Start
+
+### Linux
 
 ```bash
-go install github.com/kgretzky/evilginx2@latest
-# or clone and build
-git clone https://github.com/kgretzky/evilginx2.git
-cd evilginx2
-go build -o evilginx
-./evilginx
+git clone https://github.com/Paradoxdreamer/paradox-phantom.git
+cd paradox-phantom
+chmod +x *.sh
+./install-linux.sh
+./start-phantom.sh
+```
+
+### Termux
+
+```bash
+git clone https://github.com/Paradoxdreamer/paradox-phantom.git
+cd paradox-phantom
+chmod +x install-termux.sh start-phantom.sh
+./install-termux.sh
+source ~/.bashrc
+./start-phantom.sh
 ```
 
 ---
 
-## Termux
+## Basic Operator Flow
 
-```bash
-pkg update && pkg install golang git
-git clone https://github.com/kgretzky/evilginx2.git
-cd evilginx2
-go build -o evilginx
-./evilginx
-```
-
-Works solid on modern Termux. Pair with a VPS or ngrok/cloudflare tunnel for public reachability.
-
----
-
-## Basic Flow
-
-1. Configure domain + TLS certs
+1. Point a domain + TLS certs at the box running Phantom
 2. Load / create phishlets
-3. Create lure links
+3. Create lures
 4. Capture sessions
 
-Always operate under authorized engagement rules.
+```bash
+# inside evilginx
+phishlets
+phishlets hostname o365 your.phishing.domain
+phishlets enable o365
+lures create o365
+```
 
 ---
 
-## Paradox Series
+## Notes
 
-- Paradox Sovereign — C2
-- Paradox Oracle — AD attack paths
-- **Paradox Phantom** — phishing / session capture (this)
+- Works solid on Termux as the host when paired with a proper domain/tunnel
+- You need valid TLS certificates (Let's Encrypt or similar)
+- This is a high-impact tool — only use with explicit authorization
 
-More tools being added under the Paradox banner.
+---
+
+## Paradox Collection
+
+- Paradox Sovereign → Havoc
+- Paradox Alloy → Sliver
+- **Paradox Phantom** → Evilginx (this)
+- Paradox Oracle → BloodHound
+- Paradox Packet → Impacket
+- + more
